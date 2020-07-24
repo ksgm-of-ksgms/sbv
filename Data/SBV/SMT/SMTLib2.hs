@@ -157,8 +157,8 @@ cvt ctx kindInfo isSat comments (inputs, trackerVars) skolemInps consts tbls arr
              ++ [ "; --- tuples ---" ]
              ++ concatMap declTuple tupleArities
              ++ [ "; --- sums ---" ]
-             ++ (if containsSum   kindInfo then declSum   else [])
-             ++ (if containsMaybe kindInfo then declMaybe else [])
+             ++ (if containsSum   kindInfo then declSum   else declSum)
+             ++ (if containsMaybe kindInfo then declMaybe else declMaybe)
              ++ [ "; --- literal constants ---" ]
              ++ concatMap (declConst cfg) consts
              ++ [ "; --- skolem constants ---" ]
@@ -393,8 +393,8 @@ cvtInc inps newKs consts arrs tbls uis (SBVPgm asgnsSeq) cstrs cfg =
             -- tuples. NB. Only declare the new sizes, old sizes persist.
             ++ concatMap declTuple (findTupleArities newKs)
             -- sums
-            ++ (if containsSum   newKs then declSum   else [])
-            ++ (if containsMaybe newKs then declMaybe else [])
+            ++ (if containsSum   newKs then []   else [])
+            ++ (if containsMaybe newKs then [] else [])
             -- constants
             ++ concatMap (declConst cfg) consts
             -- inputs
